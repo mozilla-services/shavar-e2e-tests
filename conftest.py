@@ -21,5 +21,5 @@ def firefox_options(firefox_options):
         'extensions.install.requireBuiltInCerts', False)
     firefox_options.set_preference('xpinstall.signatures.required', False)
     firefox_options.set_preference('extensions.webapi.testing', True)
-    firefox_options.set_preference('example.com', 'local')
+    firefox_options.set_preference('browser.startup.homepage', 'http://itisatrap.org/firefox/its-a-tracker.html')  # noqa
     return firefox_options
