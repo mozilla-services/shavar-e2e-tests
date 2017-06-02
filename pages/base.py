@@ -1,11 +1,7 @@
 from pypom import Page
 
-from selenium.webdriver.common.by import By
-
 
 class Base(Page):
-
-    _copter_locator = (By.CLASS_NAME, 'copter')
 
     def __init__(self, selenium, base_url, **kwargs):
         super(Base, self).__init__(
