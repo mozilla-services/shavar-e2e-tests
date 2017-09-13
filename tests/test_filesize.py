@@ -1,4 +1,4 @@
-# TO DO: remove print val statements on helper_prefs
+
 # TO DO: remove hardcoded safebrowsing folder location
 # TO DO: Find a way to cycle through these tests using different
 # profile types, remove hardcoded line 31
@@ -10,33 +10,32 @@
 # 5. verify size is under maximum
 import os
 
-import json
-
 from helper_prefs import (
   filesize_index,
-  max_file_size_file_list,
+  # max_file_size_file_list,
   pref_sets_combined_file_lists,
   safebrowsing_files_unique,
-  safebrowsing_files_local,
+  # safebrowsing_files_local,
   safebrowsing_files_local_expected,
-  subset_safebrowsing_prefs
+  # subset_safebrowsing_prefs
 )
 
 
 PREF_SET = os.environ['PREF_SET']
 
 
-def test_safebrowsing_contains_expected_files(conf):
+def test_safebrowsing_contains_expected_files(conf, prefsets):
     """Hardcoded location of safebrowsing directory will need to be updated
     to reflect new FF profile file directory. Also, hardcoded profile type
     'moztestpub' needs to be updated to reflect test profile type."""
 
     f = safebrowsing_files_unique()
+    #expected = pref_sets_combined_file_lists(conf, prefsets)
     expected = pref_sets_combined_file_lists(conf, PREF_SET)
     assert set(expected).issubset(set(f))
 
 
-def test_safebrowsing_filesize(conf):
+def test_safebrowsing_filesize(conf, prefsets):
     """Hardcoded location of safebrowsing folder, and filesize grouping
     named whitelist will need to be updated."""
     sections_filesizes = filesize_index(conf)
@@ -49,6 +48,7 @@ def test_safebrowsing_filesize(conf):
         found_expected = safebrowsing_files_local_expected(conf, section)
 
         for f in found_expected:
-            conditional = '{0} {1} {2}'.format(f[1], threshold_operation, size_threshold)
+            conditional = '{0} {1} {2}'.format(
+                f[1], threshold_operation, size_threshold)
             print(f)
             assert eval(conditional), 'Filesize unexpected'

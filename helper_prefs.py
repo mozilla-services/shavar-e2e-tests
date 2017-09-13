@@ -1,5 +1,4 @@
 import os
-import json
 from selenium import webdriver
 
 
@@ -45,7 +44,7 @@ def safebrowsing_files_local():
 
 def safebrowsing_files_local_expected(conf, section):
     found = safebrowsing_files_local()
-    expected = set(max_file_size_file_list(conf, section))
+    #expected = set(max_file_size_file_list(conf, section)) # noqa
     filenames_expected = subset_safebrowsing_prefs(conf, section)
     found_expected = []
     for filename_local in found:
@@ -85,7 +84,6 @@ def set_prefs(conf, sections):
 
 
 def subset_safebrowsing_prefs(conf, section):
-    f = []
     expected = set(max_file_size_file_list(conf, section))
     exts = ['pset', 'sbstore']
     filenames_expected = []
@@ -102,14 +100,14 @@ if __name__ == '__main__':
         config = ConfigParser.ConfigParser()
         config.read('./prefs.ini')
         return config
-        conf = conf()
 
-    #val = sections_list_all(conf)
-    #val = section_list_all(conf, 'DNT')
-    #val = pref_set_file_list(conf, 'DNT')
-    #val = pref_sets_list_all(conf)
-    #val = max_file_size_list_all(conf)
-    #val = max_file_size_file_list(conf, 'whitelist')
-    #val = pref_sets_index(conf)
-    #val = pref_sets_combined_file_lists(conf, 'mozfull')
-    #print(val)
+    # conf = conf() # noqa
+    #val = sections_list_all(conf) # noqa
+    #val = section_list_all(conf, 'DNT') # noqa
+    #val = pref_set_file_list(conf, 'DNT') # noqa
+    #val = pref_sets_list_all(conf) # noqa
+    #val = max_file_size_list_all(conf) # noqa
+    #val = max_file_size_file_list(conf, 'whitelist') # noqa
+    #val = pref_sets_index(conf) # noqa
+    #val = pref_sets_combined_file_lists(conf, 'mozfull') # noqa
+    #print(val) # noqa

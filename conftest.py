@@ -3,10 +3,7 @@ import ConfigParser
 import pytest
 
 from foxpuppet import FoxPuppet
-from helper_prefs import set_prefs
-
-
-PREF_SET = os.environ['PREF_SET']
+from helper_prefs import set_prefs # noqa
 
 
 @pytest.fixture()
@@ -17,7 +14,6 @@ def conf():
 
 
 @pytest.fixture
-# def firefox_options(firefox_options):
 def firefox_options(firefox_options):
     name_section = 'mozstd'
     c = conf()
@@ -32,8 +28,8 @@ def firefox_options(firefox_options):
     # 3. Set "pref_set" values, this will come from an env. variable
     # TASK B
     # 4. Use prefs.ini index to loop through battery of pref lists
-    # 5. research a means for re-running tests multiple times, each time with diff env var
-    # (the env var will equal a pref set value, which will also pull from prefs.ini index)
+    # 5. research a means for re-running tests multiple times, each time with diff env var # noqa
+    # (the env var will equal a pref set value, which will also pull from prefs.ini index) # noqa
     return firefox_options
 
 
@@ -49,5 +45,20 @@ def foxpuppet(selenium):
     return FoxPuppet(selenium)
 
 
+def pytest_addoption(parser):
+    parser.addoption("--pref-set", action="append", default=[],
+                     help="prefset to test")
+
+
 def pytest_generate_tests(metafunc):
-    metafunc.parametrize('win_size', [(1000,1020), (xx, xx )])
+
+    c = conf()
+    index = c.get('index', 'pref_sets_index')
+    if index:
+        index = index.split(',') 
+
+    pref_set = metafunc.config.getoption('pref_set')
+    if pref_set:
+        metafunc.parametrize('pref_set', pref_set)
+    else:
+        metafunc.parametrize('pref_set', index)
