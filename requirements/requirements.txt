@@ -1,4 +1,4 @@
-git+https://github.com/mozilla/FoxPuppet
+git+git://github.com/mozilla/FoxPuppet
 PyPOM==1.1.1
 pytest==3.1.3
 pytest-selenium==1.11.0

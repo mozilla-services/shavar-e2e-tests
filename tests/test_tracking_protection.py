@@ -1,5 +1,9 @@
+import os
 import pytest
 from pages.trackingprotection import TrackingProtectionPage
+
+
+PREF_SET = os.environ['PREF_SET']
 
 
 @pytest.mark.nondestructive
