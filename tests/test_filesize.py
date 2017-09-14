@@ -24,7 +24,7 @@ from helper_prefs import (
 PREF_SET = os.environ['PREF_SET']
 
 
-def test_safebrowsing_contains_expected_files(conf, prefsets):
+def test_safebrowsing_contains_expected_files(conf, pref_set):
     """Hardcoded location of safebrowsing directory will need to be updated
     to reflect new FF profile file directory. Also, hardcoded profile type
     'moztestpub' needs to be updated to reflect test profile type."""
@@ -35,7 +35,7 @@ def test_safebrowsing_contains_expected_files(conf, prefsets):
     assert set(expected).issubset(set(f))
 
 
-def test_safebrowsing_filesize(conf, prefsets):
+def test_safebrowsing_filesize(conf, pref_set):
     """Hardcoded location of safebrowsing folder, and filesize grouping
     named whitelist will need to be updated."""
     sections_filesizes = filesize_index(conf)

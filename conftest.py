@@ -51,7 +51,6 @@ def pytest_addoption(parser):
 
 
 def pytest_generate_tests(metafunc):
-
     c = conf()
     index = c.get('index', 'pref_sets_index')
     if index:

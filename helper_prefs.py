@@ -5,8 +5,8 @@ from selenium import webdriver
 PATH_DIR = './safebrowsing'
 
 
-dir = ('safebrowsing')
-sections = ['whitelist', 'blacklist', 'content', 'DNT', 'plugin']
+#dir = ('safebrowsing')
+#sections = ['whitelist', 'blacklist', 'content', 'DNT', 'plugin']
 
 
 def filesize_index(conf):
