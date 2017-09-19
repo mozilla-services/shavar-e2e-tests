@@ -1,4 +1,3 @@
-
 # TO DO: remove hardcoded safebrowsing folder location
 # TO DO: Find a way to cycle through these tests using different
 # profile types, remove hardcoded line 31
@@ -9,35 +8,40 @@
 # 4. get filesize group [ex: whitelist], compare to local matching files
 # 5. verify size is under maximum
 import os
+import time
 
 from helper_prefs import (
   filesize_index,
-  # max_file_size_file_list,
   pref_sets_combined_file_lists,
   safebrowsing_files_unique,
-  # safebrowsing_files_local,
   safebrowsing_files_local_expected,
-  # subset_safebrowsing_prefs
 )
 
 
-PREF_SET = os.environ['PREF_SET']
-
-
-def test_safebrowsing_contains_expected_files(conf, pref_set):
+#def test_safebrowsing_contains_expected_files(conf, pref_set):
+#def test_safebrowsing_contains_expected_files(conf, pref_set, browser, selenium)
+def test_safebrowsing_contains_expected_files(conf, pref_set, browser, selenium, path_profile):
     """Hardcoded location of safebrowsing directory will need to be updated
     to reflect new FF profile file directory. Also, hardcoded profile type
     'moztestpub' needs to be updated to reflect test profile type."""
+    print('YOYOYOY: {0}'.format(path_profile))
 
-    f = safebrowsing_files_unique()
-    #expected = pref_sets_combined_file_lists(conf, prefsets)
-    expected = pref_sets_combined_file_lists(conf, PREF_SET)
+    selenium.get('about:config')
+    time.sleep(3)
+
+    #f = safebrowsing_files_unique()
+    f = safebrowsing_files_unique(path_profile)
+    expected = pref_sets_combined_file_lists(conf, pref_set)
     assert set(expected).issubset(set(f))
 
 
-def test_safebrowsing_filesize(conf, pref_set):
-    """Hardcoded location of safebrowsing folder, and filesize grouping
-    named whitelist will need to be updated."""
+#def test_safebrowsing_filesize(conf, pref_set):
+#def test_safebrowsing_filesize(conf, pref_set, browser, selenium):
+def test_safebrowsing_filesize(conf, pref_set, browser, selenium, path_profile):
+
+    selenium.get('about:config')
+    time.sleep(3)
+
     sections_filesizes = filesize_index(conf)
     for section in sections_filesizes:
         print('----------------')
@@ -45,7 +49,9 @@ def test_safebrowsing_filesize(conf, pref_set):
         print('----------------')
         size_threshold = conf.get(section, 'size_threshold')
         threshold_operation = conf.get(section, 'threshold_operation')
-        found_expected = safebrowsing_files_local_expected(conf, section)
+
+        #found_expected = safebrowsing_files_local_expected(conf, section)
+        found_expected = safebrowsing_files_local_expected(conf, section, path_profile)
 
         for f in found_expected:
             conditional = '{0} {1} {2}'.format(

@@ -2,10 +2,6 @@ import os
 from selenium import webdriver
 
 
-PATH_DIR = './safebrowsing'
-
-
-#dir = ('safebrowsing')
 #sections = ['whitelist', 'blacklist', 'content', 'DNT', 'plugin']
 
 
@@ -32,18 +28,24 @@ def pref_sets_index(conf):
     return conf.get('index', 'pref_sets_index').split(',')
 
 
-def safebrowsing_files_local():
+#def safebrowsing_files_local():
+def safebrowsing_files_local(path_profile):
+    PATH_DIR = path_profile
     found = []
+    print('============================')
     for filename in os.listdir(PATH_DIR):
         file_path = '{0}/{1}'.format(PATH_DIR, filename)
+        print('FILE_PATH: {0}'.format(file_path))
         fsize = os.path.getsize(file_path)
         tmp = (filename, fsize)
         found.append(tmp)
     return found
 
 
-def safebrowsing_files_local_expected(conf, section):
-    found = safebrowsing_files_local()
+#def safebrowsing_files_local_expected(conf, section):
+def safebrowsing_files_local_expected(conf, section, path_profile):
+    #print('PATH_DIR: {0}'.format(path_profile))
+    found = safebrowsing_files_local(path_profile)
     #expected = set(max_file_size_file_list(conf, section)) # noqa
     filenames_expected = subset_safebrowsing_prefs(conf, section)
     found_expected = []
@@ -54,10 +56,12 @@ def safebrowsing_files_local_expected(conf, section):
     return found_expected
 
 
-def safebrowsing_files_unique():
+def safebrowsing_files_unique(path_profile):
+#def safebrowsing_files_unique():
     # return list of unique safebrowsing files (less file extension)
     f = []
-    for name in os.listdir('safebrowsing'):
+    #for name in os.listdir('safebrowsing'):
+    for name in os.listdir(path_profile):
         file = os.path.splitext(name)[0]
         if file not in (f):
             f.append(file)

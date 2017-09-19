@@ -1,9 +1,5 @@
 import os
 import time
-# from selenium.webdriver.support.wait import WebDriverWait
-
-
-PREF_SET = os.environ['PREF_SET']
 
 
 def test_new(browser, selenium, pref_set):

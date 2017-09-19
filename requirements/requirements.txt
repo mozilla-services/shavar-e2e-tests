@@ -6,3 +6,4 @@ pytest-variables==1.5.1
 pytest-xdist==1.15.0
 selenium==3.4.0
 mozprofile
+#mozdownload
