@@ -1,77 +1,64 @@
-import os
-import sys
 import ConfigParser
 import pytest
-
 from foxpuppet import FoxPuppet
-from selenium.webdriver import Firefox, FirefoxProfile
-from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
+from selenium.webdriver import Firefox
 
 
 from helper_prefs import set_prefs # noqa
-from firefox_profile import create_mozprofile
 
 
-    
 @pytest.fixture()
 def conf():
     config = ConfigParser.ConfigParser()
     config.read('prefs.ini')
     return config
 
+
 """
 @pytest.fixture
 def firefox_binary(firefox_binary):
+    from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
     return binary('.')
 """
 
+
 @pytest.fixture
-#def firefox_path_profile():
 def path_profile():
     f = Firefox()
     return '{0}/safebrowsing'.format(f.capabilities['moz:profile'])
 
-"""
-@pytest.fixture()
-def path_profile(firefox_path_profile):
-    return firefox_path_profile 
-"""
+
+def set_preferences(firefox_options, name_section):
+    c = conf()
+    defaults = c.items(name_section)
+    print('====================================')
+    print('PREF_SET SECTION: {0}'.format(name_section))
+    print('====================================\n')
+    for key, val in defaults:
+        if val == 'true':
+            val = True
+        firefox_options.set_preference(key, val)
+        print('KEY: {0}, VAL: {1}'.format(key, val))
+    return firefox_options
 
 
 @pytest.fixture
-#def firefox_options(firefox_options):
-#def firefox_options(firefox_options, firefox_path_profile):
-def firefox_options(firefox_options, path_profile):
-    path_binary = '/Users/rpappalardo/git/ff-tool/.cache/browsers/FirefoxNightly.app/Content/MacOS/firefox-bin'
-    c = conf()
-    name_section = 'mozstd'
-    #path_profile = '/Users/rpappalardo/git/shavar-e2e-tests/.profiles/rpapa2'
-    #path_profile = create_mozprofile('rpapa2')
-    #path_profile = '/Users/rpappalardo/git/shavar-e2e-tests/.profiles/rpapa2'
-    #firefox_options.profile = FirefoxProfile(profile_directory=path_profile)
-    #firefox_options.binary = FirefoxBinary(path_binary)
-    #firefox_options.profile = path_profile
+def firefox_options(firefox_options, path_profile, pref_set):
 
-    f = Firefox()
-    path_profile = f.capabilities['moz:profile']
-    #path_profile = firefox_path_profile
-    firefox_options.set_preference('browser.startup.homepage', "google.com")
-    firefox_options.set_preference('privacy.trackingprotection.enabled',True)
-
+    # TASK (A) - set prefs
     # 1. Set default conf values (loop through them)
-    defaults = c.items(name_section)
-    for key, val in defaults:
-        print(key, val)
+    firefox_options = set_preferences(firefox_options, 'default')
     # 2. Set test env (stage or prod)
-    # This will come from an environment variable
-    # 3. Set "pref_set" values, this will come from an env. variable
-    # TASK B
-    # 4. Use prefs.ini index to loop through battery of pref lists
-    # 5. research a means for re-running tests multiple times, each time with diff env var # noqa
-    # (the env var will equal a pref set value, which will also pull from prefs.ini index) # noqa
+    firefox_options = set_preferences(firefox_options, 'stage')
+    # This will come from: see - pytest_generate_tests
+    firefox_options = set_preferences(firefox_options, pref_set)
 
-    # TASK C
-    ##firefox_options.binary = <path to binary>
+    # TASK (B) - pref lists
+    # 4. Use prefs.ini index to loop through battery of pref lists
+
+    # TASK (C) - path to binary
+    # firefox_options.binary = <path to binary>
+    # path_binary = '/Users/rpappalardo/git/ff-tool/.cache/browsers/FirefoxNightly.app/Content/MacOS/firefox-bin' # noqa
     return firefox_options
 
 
@@ -84,7 +71,6 @@ def browser(foxpuppet):
 @pytest.fixture
 def foxpuppet(selenium, firefox_options):
     """Initialize the FoxPuppet object."""
-    #driver = webdriver.Firefox(firefox_options=firefox_options)
     return FoxPuppet(selenium)
 
 
@@ -97,7 +83,7 @@ def pytest_generate_tests(metafunc):
     c = conf()
     index = c.get('index', 'pref_sets_index')
     if index:
-        index = index.split(',') 
+        index = index.split(',')
 
     pref_set = metafunc.config.getoption('pref_set')
     if pref_set:
