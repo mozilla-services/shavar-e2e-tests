@@ -23,15 +23,17 @@ def firefox_binary(firefox_binary):
 
 
 @pytest.fixture
+#def path_profile(capabilities):
 def path_profile():
     f = Firefox()
+    #return '{0}/safebrowsing'.format(capabilities['moz:profile'])
     return '{0}/safebrowsing'.format(f.capabilities['moz:profile'])
 
 
 def set_preferences(firefox_options, name_section):
     c = conf()
     defaults = c.items(name_section)
-    print('====================================')
+    print('\n====================================')
     print('PREF_SET SECTION: {0}'.format(name_section))
     print('====================================\n')
     for key, val in defaults:
@@ -45,7 +47,6 @@ def set_preferences(firefox_options, name_section):
 @pytest.fixture
 def firefox_options(firefox_options, path_profile, pref_set):
 
-    # TASK (A) - set prefs
     # 1. Set default conf values (loop through them)
     firefox_options = set_preferences(firefox_options, 'default')
     # 2. Set test env (stage or prod)
@@ -53,10 +54,7 @@ def firefox_options(firefox_options, path_profile, pref_set):
     # This will come from: see - pytest_generate_tests
     firefox_options = set_preferences(firefox_options, pref_set)
 
-    # TASK (B) - pref lists
-    # 4. Use prefs.ini index to loop through battery of pref lists
-
-    # TASK (C) - path to binary
+    # TODO - path to binary
     # firefox_options.binary = <path to binary>
     # path_binary = '/Users/rpappalardo/git/ff-tool/.cache/browsers/FirefoxNightly.app/Content/MacOS/firefox-bin' # noqa
     return firefox_options

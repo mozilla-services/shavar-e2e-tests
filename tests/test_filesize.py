@@ -15,9 +15,8 @@ def test_safebrowsing_contains_expected_files(conf, pref_set, browser, selenium,
     print('YOYOYOY: {0}'.format(path_profile))
 
     selenium.get('about:config')
-    time.sleep(3)
+    time.sleep(5)
 
-    # f = safebrowsing_files_unique()
     f = safebrowsing_files_unique(path_profile)
     expected = pref_sets_combined_file_lists(conf, pref_set)
     assert set(expected).issubset(set(f))

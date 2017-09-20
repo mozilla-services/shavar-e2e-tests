@@ -38,7 +38,6 @@ def safebrowsing_files_local(path_profile):
 
 def safebrowsing_files_local_expected(conf, section, path_profile):
     found = safebrowsing_files_local(path_profile)
-    #expected = set(max_file_size_file_list(conf, section)) # noqa
     filenames_expected = subset_safebrowsing_prefs(conf, section)
     found_expected = []
     for filename_local in found:
