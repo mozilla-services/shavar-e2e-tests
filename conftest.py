@@ -20,12 +20,19 @@ def conf():
 def firefox_binary(firefox_binary):
     from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
     return binary('.')
+
+@pytest.fixture
+def path_binary(foxpuppet):
+    f = foxpuppet.selenium
+    f.binary = '/Users/rpappalardo/git/ff-tool/.cache/browsers/FirefoxNightly.app/Contents/MacOS/firefox-bin'
+    return f
 """
+
 
 @pytest.fixture
 def path_profile(foxpuppet):
-    fps = foxpuppet.selenium
-    return '{0}/safebrowsing'.format(fps.capabilities['moz:profile'])
+    f = foxpuppet.selenium
+    return '{0}/safebrowsing'.format(f.capabilities['moz:profile'])
 
 
 def set_preferences(firefox_options, name_section):
@@ -45,6 +52,9 @@ def set_preferences(firefox_options, name_section):
 @pytest.fixture
 def firefox_options(firefox_options, pref_set):
 
+    # TODO - path to binary
+    #firefox_options.binary = '/Users/rpappalardo/git/ff-tool/.cache/browsers/FirefoxNightly.app/Content/MacOS/firefox' # noqa
+
     # 1. Set default conf values (loop through them)
     firefox_options = set_preferences(firefox_options, 'default')
     # 2. Set test env (stage or prod)
@@ -52,9 +62,6 @@ def firefox_options(firefox_options, pref_set):
     # This will come from: see - pytest_generate_tests
     firefox_options = set_preferences(firefox_options, pref_set)
 
-    # TODO - path to binary
-    # firefox_options.binary = <path to binary>
-    # path_binary = '/Users/rpappalardo/git/ff-tool/.cache/browsers/FirefoxNightly.app/Content/MacOS/firefox-bin' # noqa
     return firefox_options
 
 
