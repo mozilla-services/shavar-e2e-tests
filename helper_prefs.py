@@ -33,6 +33,10 @@ def safebrowsing_files_local(path_profile):
         fsize = os.path.getsize(file_path)
         tmp = (filename, fsize)
         found.append(tmp)
+    print("====================================")
+    print("FILES_LOCAL")
+    print("====================================")
+    print(found)
     return found
 
 
@@ -44,6 +48,10 @@ def safebrowsing_files_local_expected(conf, section, path_profile):
         for filename_expected in filenames_expected:
             if filename_expected == filename_local[0]:
                 found_expected.append(filename_local)
+    print("====================================")
+    print("FOUND_EXPECTED")
+    print("====================================")
+    print(found_expected)
     return found_expected
 
 

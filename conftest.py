@@ -2,6 +2,7 @@ import ConfigParser
 import pytest
 from foxpuppet import FoxPuppet
 from selenium.webdriver import Firefox
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 
 from helper_prefs import set_prefs # noqa
@@ -21,13 +22,10 @@ def firefox_binary(firefox_binary):
     return binary('.')
 """
 
-
 @pytest.fixture
-#def path_profile(capabilities):
-def path_profile():
-    f = Firefox()
-    #return '{0}/safebrowsing'.format(capabilities['moz:profile'])
-    return '{0}/safebrowsing'.format(f.capabilities['moz:profile'])
+def path_profile(foxpuppet):
+    fps = foxpuppet.selenium
+    return '{0}/safebrowsing'.format(fps.capabilities['moz:profile'])
 
 
 def set_preferences(firefox_options, name_section):
@@ -45,7 +43,7 @@ def set_preferences(firefox_options, name_section):
 
 
 @pytest.fixture
-def firefox_options(firefox_options, path_profile, pref_set):
+def firefox_options(firefox_options, pref_set):
 
     # 1. Set default conf values (loop through them)
     firefox_options = set_preferences(firefox_options, 'default')
