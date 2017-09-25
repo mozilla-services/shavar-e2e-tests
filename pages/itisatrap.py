@@ -2,9 +2,11 @@ from pypom import Page
 from selenium.webdriver.common.by import By
 
 
+URL_TEMPLATE = 'https://www.itisatrap.org/firefox/its-a-trap.html'
+
+
 class ItisaTrapPage(Page):
 
-    URL_TEMPLATE = 'https://www.itisatrap.org/firefox/its-a-trap.html'
 
     _dnt_signal_locator = (By.ID, 'dnt-on')
     _first_party_locator = (By.ID, 'whitelisted-loaded')

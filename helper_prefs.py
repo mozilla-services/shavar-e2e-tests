@@ -56,10 +56,12 @@ def safebrowsing_files_local_expected(conf, section, path_profile):
 
 
 def safebrowsing_files_unique(path_profile):
-    # return list of unique safebrowsing files (less file extension)
+    # return list of unique local safebrowsing files (less file extension)
     f = []
+    print('SAFEBROWSING_FILES_UNIQ (PATH_PROFILE): {0}'.format(path_profile))
     for name in os.listdir(path_profile):
         file = os.path.splitext(name)[0]
+        print('SAFEBROWSING_FILES_UNIQ: {0}'.format(file))
         if file not in (f):
             f.append(file)
     return f

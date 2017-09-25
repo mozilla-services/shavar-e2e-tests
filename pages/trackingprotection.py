@@ -2,9 +2,10 @@ from pypom import Page
 from selenium.webdriver.common.by import By
 
 
-class TrackingProtectionPage(Page):
+URL_TEMPLATE = 'https://mozilla.github.io/tracking-test/'
 
-    URL_TEMPLATE = 'https://mozilla.github.io/tracking-test/'
+
+class TrackingProtectionPage(Page):
 
     _cat_locator = (By.CSS_SELECTOR, '#cat')
     _fox_locator = (By.CSS_SELECTOR, '#fox')
