@@ -9,4 +9,6 @@ __pycache__
 *.BAK
 .firefox
 ~archive
-build
+LICENSE
+README.md
+scripts
