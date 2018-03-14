@@ -10,7 +10,7 @@ from helper_prefs import (
 from conftest import path_profile, PATH_CACHE
 
 
-def test_safebrowsing_contains_expected_files(selenium_setup, selenium, conf, pref_set, channel): # noqa
+def test_safebrowsing_contains_expected_files(selenium, conf, pref_set, channel): # noqa
 #def test_safebrowsing_contains_expected_files(selenium, conf, pref_set, channel): # noqa
     """Hardcoded location of safebrowsing directory will need to be updated
     to reflect new FF profile file directory. Also, hardcoded profile type

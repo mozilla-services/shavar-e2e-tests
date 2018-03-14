@@ -1,7 +1,7 @@
 git+git://github.com/mozilla/FoxPuppet
 PyPOM==1.1.1
 pytest==3.1.3
-#pytest-selenium==1.11.0
+pytest-selenium==1.11.0
 pytest-variables==1.5.1
 pytest-xdist==1.15.0
 selenium==3.4.0
