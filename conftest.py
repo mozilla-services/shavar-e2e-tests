@@ -36,6 +36,8 @@ def path_profile(pref_set):
 
 @pytest.fixture
 def profile_copy(driver, pref_set):
+    """Selenium retains profile in a temporary cache. We are copying
+    the profile to a semi-permanent cache, in case we need to verify after a test run."""
     path_profile_dest = path_profile(pref_set)
     path = driver.capabilities['moz:profile']
     try:

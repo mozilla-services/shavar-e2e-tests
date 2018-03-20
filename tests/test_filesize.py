@@ -11,13 +11,12 @@ from conftest import path_profile, PATH_CACHE
 
 
 def test_safebrowsing_contains_expected_files(selenium, conf, pref_set, channel): # noqa
-#def test_safebrowsing_contains_expected_files(selenium, conf, pref_set, channel): # noqa
-    """Hardcoded location of safebrowsing directory will need to be updated
+    """03.18 Test compares expected files with what is actually there. 
+	Hardcoded location of safebrowsing directory will need to be updated
     to reflect new FF profile file directory. Also, hardcoded profile type
     'moztestpub' needs to be updated to reflect test profile type."""
 
-    selenium.get('about:config')
-    time.sleep(50)
+    #selenium.get('about:config')
 
     path_prof = path_profile(pref_set)
     f = safebrowsing_files_unique(path_prof)
