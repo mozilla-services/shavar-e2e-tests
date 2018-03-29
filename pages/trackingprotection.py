@@ -6,8 +6,8 @@ class TrackingProtectionPage(Page):
 
     URL_TEMPLATE = 'https://mozilla.github.io/tracking-test/'
 
-    _cat_locator = (By.CSS_SELECTOR, '#cat')
-    _fox_locator = (By.CSS_SELECTOR, '#fox')
+    _cat_locator = (By.ID, 'cat')
+    _fox_locator = (By.ID, 'fox')
 
     @property
     def tracking_protection_off(self):

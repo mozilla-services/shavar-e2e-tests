@@ -26,7 +26,6 @@ def safebrowsing_files_local(path_profile):
     found = []
     for filename in os.listdir(path_profile):
         file_path = '{0}/{1}'.format(path_profile, filename)
-        print('FILE_PATH: {0}'.format(file_path))
         fsize = os.path.getsize(file_path)
         tmp = (filename, fsize)
         found.append(tmp)
@@ -98,14 +97,3 @@ if __name__ == '__main__':
         config = ConfigParser.ConfigParser()
         config.read('./prefs.ini')
         return config
-
-    # conf = conf() # noqa
-    # val = sections_list_all(conf) # noqa
-    # val = section_list_all(conf, 'DNT') # noqa
-    # val = pref_set_file_list(conf, 'DNT') # noqa
-    # val = pref_sets_list_all(conf) # noqa
-    # val = max_file_size_list_all(conf) # noqa
-    # val = max_file_size_file_list(conf, 'whitelist') # noqa
-    # val = pref_sets_index(conf) # noqa
-    # val = pref_sets_combined_file_lists(conf, 'mozfull') # noqa
-    # print(val) # noqa

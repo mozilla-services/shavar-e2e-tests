@@ -25,13 +25,17 @@ def conf():
 def path_safebrowsing(firefox_options):
     path_profile = firefox_options.profile
     path_safebrowsing = '{0}/safebrowsing'.format(path_profile)
-    print('PATH_SAFEBROWSING: {0}'.format(path_safebrowsing))
     return path_safebrowsing
 
 
 def path_profile(pref_set):
     path_profile_dest = '{0}/profiles/{1}'.format(PATH_CACHE, pref_set)
     return path_profile_dest
+
+
+def path_safebrowsing_files(pref_set):
+    path_local_files = '{0}/profiles/{1}/safebrowsing'.format(PATH_CACHE, pref_set)
+    return path_local_files
 
 
 @pytest.fixture
@@ -42,17 +46,14 @@ def profile_copy(driver, pref_set):
     path = driver.capabilities['moz:profile']
     try:
         shutil.rmtree(path_profile_dest)
-        time.sleep(5)
+        time.sleep(1)
     except:
         pass
-    # TODO: remove this
-    time.sleep(30)
     print('\n====================================')
     print('PATH: {0}'.format(path))
     resp = os.listdir('{0}/safebrowsing'.format(path))
     print('\n====================================')
     print(resp)
-    time.sleep(10)
 
     shutil.copytree(path, path_profile_dest)
 

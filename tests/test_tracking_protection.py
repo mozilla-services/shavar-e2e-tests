@@ -1,14 +1,12 @@
-import os
+import time
 import pytest
 from pages.trackingprotection import TrackingProtectionPage
 
 
-PREF_SET = os.environ['PREF_SET']
-
-
 @pytest.mark.nondestructive
-def test_tracking_protection_off(base_url, selenium):
-    """Test Firefox Tracking Protection page shows TP is off"""
+@pytest.mark.firefox_preferences({'privacy.trackingprotection.enabled': False})
+def test_tracking_protection_off(base_url, selenium, conf, channel, pref_set):
+    """Test Firefox Tracking Protection page shows TP is off."""
 
     page = TrackingProtectionPage(selenium, base_url).open()
 
@@ -16,10 +14,11 @@ def test_tracking_protection_off(base_url, selenium):
 
 
 @pytest.mark.nondestructive
-def test_tracking_protection_on(base_url, selenium):
-    """Test Firefox Tracking Protection page shows TP is on"""
-    # This test will fail until we have profile integration
+@pytest.mark.firefox_preferences({'privacy.trackingprotection.enabled': True})
+def test_tracking_protection_on(base_url, selenium, channel, pref_set):
+    """Test Firefox Tracking Protection page shows TP is on."""
 
+    page = TrackingProtectionPage(selenium, base_url).open()
     page = TrackingProtectionPage(selenium, base_url).open()
 
     assert page.tracking_protection_on
