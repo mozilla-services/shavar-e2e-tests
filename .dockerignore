@@ -11,3 +11,5 @@
 venv/
 build
 run
+README*
+LICENSE

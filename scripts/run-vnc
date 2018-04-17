@@ -1,0 +1,3 @@
+clear
+# VNC 
+docker run -p 5900 -e HOME=/ creack/firefox-vnc x11vnc -forever -usepw -create

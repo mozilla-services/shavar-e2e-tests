@@ -8,6 +8,7 @@ import pytest
 from selenium.webdriver import Firefox
 from helper_prefs import set_prefs # noqa
 from os_handler import OSHandler
+# from github_handler import github_repo
 
 
 PATH_CACHE = '.firefox'
@@ -34,19 +35,23 @@ def path_profile(pref_set):
 
 
 def path_safebrowsing_files(pref_set):
-    path_local_files = '{0}/profiles/{1}/safebrowsing'.format(PATH_CACHE, pref_set)
+    path_local_files = '{0}/profiles/{1}/safebrowsing'.format(PATH_CACHE, pref_set) # noqa
     return path_local_files
 
 
 @pytest.fixture
 def profile_copy(driver, pref_set):
     """Selenium retains profile in a temporary cache. We are copying
-    the profile to a semi-permanent cache, in case we need to verify after a test run."""
+    the profile to a semi-permanent cache, in case we need to verify
+    after a test run."""
     path_profile_dest = path_profile(pref_set)
+    print('PATH_PROFILE: {0}'.format(path_profile_dest))
     path = driver.capabilities['moz:profile']
     try:
+        print('PREPARE TO RMTREE')
+        time.sleep(5)
         shutil.rmtree(path_profile_dest)
-        time.sleep(1)
+        time.sleep(5)
     except:
         pass
     print('\n====================================')
@@ -55,6 +60,7 @@ def profile_copy(driver, pref_set):
     print('\n====================================')
     print(resp)
 
+    print('PREPARE TO COPYTREE')
     shutil.copytree(path, path_profile_dest)
 
 
@@ -83,20 +89,17 @@ def firefox_path(channel):
     h = OSHandler()
     this_os = h.get_os()
 
-    # remove OSHandler once docker in place
     if this_os == 'mac':
         channel = channel.title()
+        # download must detar to FirefoxNightly or Firefox (Release) 
         path_firefox = '{0}/browsers/Firefox{1}.app/Contents/MacOS/firefox-bin'.format(PATH_CACHE, channel) # noqa
-        path_firefox = path_firefox.encode('utf-8')
     elif this_os == 'linux':
         # download must detar to firefox-nightly or firefox-release
-        path_firefox = '{0}/browsers/firefox-{1}/firefox-bin'.format(
-            PATH_CACHE, channel)
-        path_firefox = path_firefox.encode('utf-8')
+        path_firefox = '/opt/firefox-{0}/firefox-bin'.format(channel)
         pass
     else:
         sys.exit('ERROR: OS not supported')
-    return path_firefox
+    return path_firefox.encode('utf-8')
 
 
 @pytest.fixture
@@ -107,6 +110,7 @@ def selenium(pref_set, firefox_options):
     3. quit firefox when test completed
     """
     driver = Firefox(firefox_options=firefox_options)
+    # TODO: fix permissions issue w/ Docker
     profile_copy(driver, pref_set)
     yield driver
     driver.quit()

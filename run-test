@@ -1,0 +1,6 @@
+clear
+
+container_id=`docker ps | grep shavar-e2e-test | awk '{print $1}'`
+
+docker exec --user root -e "TEST_ENV=stage" -e "GITHUB_ACCESS_TOKEN=$GITHUB_ACCESS_TOKEN" "${container_id}" pytest --driver Firefox --channel="nightly" --pref-set="base" tests/test_tracking_protection.py -s
+

@@ -1,0 +1,4 @@
+clear
+
+#docker run -p 5900 -e "TEST_ENV=$TEST_ENV" -e "GITHUB_ACCESS_TOKEN=$GITHUB_ACCESS_TOKEN" firefoxtesteng/shavar-e2e-tests pytest --channel="nightly" --pref-set="base" tests/test_tracking_protection.py -s
+docker run -p 5900 -e "TEST_ENV=$TEST_ENV" -e "GITHUB_ACCESS_TOKEN=$GITHUB_ACCESS_TOKEN" firefoxtesteng/shavar-e2e-tests tox -e filesize 

@@ -7,3 +7,4 @@ pytest-xdist==1.15.0
 selenium==3.4.0
 mozprofile
 #mozdownload
+PyGithub
