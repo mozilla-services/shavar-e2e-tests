@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 
 class BlackListEditPage(Page):
 
-    URL_TEMPLATE = 'https://www.itisatrap.org/firefox/its-a-trap.html'
+    URL_TEMPLATE = 'https://mozilla.github.io/tracking-test/'
 
     _dnt_signal_locator = (By.ID, 'dnt-on')
     _first_party_locator = (By.ID, 'whitelisted-loaded')

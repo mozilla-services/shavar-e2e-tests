@@ -21,38 +21,10 @@ pipeline {
     GITHUB_ACCESS_TOKEN = credentials('GITHUB_ACCESS_TOKEN_RPAPA')
   }
   stages {
-    stage('Test list-edit') {
-      steps {
-	script {
-	  sh "MOZ_HEADLESS=1 pytest --driver='Firefox' --channel='nightly' tests/test_list_edit.py -s"
-        }
-      } 
-    } 
     stage('Test shield-display') {
       steps {
 	script {
 	  sh "MOZ_HEADLESS=1 pytest --driver='Firefox' --channel='nightly' tests/test_shield_display.py -s"
-        }
-      } 
-    }
-    stage('Test tracking-protection') {
-      steps {
-	script {
-	  sh "MOZ_HEADLESS=1 pytest --driver='Firefox' --channel='nightly' tests/test_tracking_protection.py -s"
-        }
-      } 
-    }
-    stage('Test filesize') {
-      steps {
-	script {
-	  sh "MOZ_HEADLESS=1 pytest --driver='Firefox' --channel='nightly' tests/test_filesize.py -s"
-        }
-      } 
-    }
-    stage('Test itisatrap') {
-      steps {
-	script {
-	  sh "MOZ_HEADLESS=1 pytest --driver='Firefox' --channel='nightly' tests/test_itisatrap_page.py -s"
         }
       } 
     }

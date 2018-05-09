@@ -8,7 +8,6 @@ import pytest
 from selenium.webdriver import Firefox
 from helper_prefs import set_prefs # noqa
 from os_handler import OSHandler
-# from github_handler import github_repo
 
 
 PATH_CACHE = '.firefox'
@@ -61,7 +60,8 @@ def profile_copy(driver, pref_set):
     print(resp)
 
     print('PREPARE TO COPYTREE')
-    shutil.copytree(path, path_profile_dest)
+    # TODO: https://github.com/rbillings/shavar-e2e-tests/issues/58
+    # shutil.copytree(path, path_profile_dest)
 
 
 @pytest.fixture
@@ -91,7 +91,7 @@ def firefox_path(channel):
 
     if this_os == 'mac':
         channel = channel.title()
-        # download must detar to FirefoxNightly or Firefox (Release) 
+        # download must detar to FirefoxNightly or Firefox (Release)
         path_firefox = '{0}/browsers/Firefox{1}.app/Contents/MacOS/firefox-bin'.format(PATH_CACHE, channel) # noqa
     elif this_os == 'linux':
         # download must detar to firefox-nightly or firefox-release
