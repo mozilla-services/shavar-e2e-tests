@@ -35,14 +35,14 @@ pipeline {
         body: 'Test summary: $BUILD_URL\n\n',
         replyTo: '$DEFAULT_REPLYTO',
         subject: "shavar ${env.TEST_ENV} succeeded!!",
-        to: '$SHAVAR_EMAIL_RECIPIENT')
+        to: "${env.SHAVAR_EMAIL_RECIPIENT}")
     }
     failure {
       emailext(
         body: 'Test summary: $BUILD_URL\n\n',
         replyTo: '$DEFAULT_REPLYTO',
         subject: "shavar ${env.TEST_ENV} failed!",
-        to: '$SHAVAR_EMAIL_RECIPIENT')
+        to: "${env.SHAVAR_EMAIL_RECIPIENT}")
     }
     changed {
       ircNotification('#fx-test-alerts')
