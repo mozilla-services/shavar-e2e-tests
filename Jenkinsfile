@@ -21,10 +21,17 @@ pipeline {
     GITHUB_ACCESS_TOKEN = credentials('GITHUB_ACCESS_TOKEN_RPAPA')
   }
   stages {
+    stage('Test tracking-protection') {
+      steps {
+	script {
+	  sh "MOZ_HEADLESS=1 pytest --driver='Firefox' --pref-set='base' --channel='nightly' tests/test_tracking_protection.py -s"
+        }
+      } 
+    }
     stage('Test shield-display') {
       steps {
 	script {
-	  sh "MOZ_HEADLESS=1 pytest --driver='Firefox' --channel='nightly' tests/test_shield_display.py -s"
+	  sh "MOZ_HEADLESS=1 pytest --driver='Firefox' --pref-set='base' --channel='nightly' tests/test_shield_display.py -s"
         }
       } 
     }

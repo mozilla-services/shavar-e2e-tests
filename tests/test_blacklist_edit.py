@@ -4,7 +4,7 @@ import pytest
 from github_handler import (github_repo,
                             json_contents,
                             json_overwrite)
-from pages.blacklistedit import BlackListEditPage
+from pages.trackingprotection import TrackingProtectionPage 
 
 
 BLACKLIST_NAME_ORIG = 'track.json'
@@ -45,12 +45,9 @@ def test_verify_no_blacklist(base_url, selenium, conf, channel):
     NOTE:
         A black cat should appear on page"""
 
-    page = BlackListEditPage(selenium, base_url).open()
-    time.sleep(4)
+    page = TrackingProtectionPage(selenium, base_url).open()
 
-    # TODO:  need to assert the correct shit here
-    # assert page.third_party_loads_correctly
-    assert True
+    assert page.tracking_protection_off
 
 
 def test_verify_blacklist(cache, base_url, selenium, conf, channel):
@@ -60,12 +57,9 @@ def test_verify_blacklist(cache, base_url, selenium, conf, channel):
         An orange STOP sign fox should appear on page"""
 
     setup_blacklist(cache)
-    page = BlackListEditPage(selenium, base_url).open()
-    time.sleep(4)
+    page = TrackingProtectionPage(selenium, base_url).open()
     
-    # TODO:  need to assert the correct shit here
-    # assert page.third_party_loads_correctly
-    assert True
+    assert page.tracking_protection_on
 
 
 def test_verify_blacklist_reverted(cache, base_url, selenium, conf, channel):
@@ -75,8 +69,6 @@ def test_verify_blacklist_reverted(cache, base_url, selenium, conf, channel):
         A black cat should appear on page"""
 
     teardown_blacklist(cache)
-    page = BlackListEditPage(selenium, base_url).open()
-    time.sleep(4)
-    # TODO:  need to assert the correct shit here
-    # assert page.third_party_loads_correctly
-    assert True
+    page = TrackingProtectionPage(selenium, base_url).open()
+
+    assert page.tracking_protection_off

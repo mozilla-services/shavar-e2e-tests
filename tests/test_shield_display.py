@@ -11,7 +11,6 @@ def test_tracking_protection_shield_displays(browser, selenium, channel, pref_se
     """Tests if the tracking protection icon displays
     on a blacklist site."""
 
-    # selenium.get('https://www.washingtonpost.com/')
     selenium.get(URL_PAGE_BLACKLIST)
     WebDriverWait(selenium, timeout=5).until(
         lambda _: browser.navbar.is_tracking_shield_displayed)
@@ -23,6 +22,5 @@ def test_tracking_protection_shield_does_not_display(browser, selenium, channel,
     """Tests if the tracking protection icon does not display
     on a whitelist site."""
 
-    # selenium.get('https://www.youtube.com/')
     selenium.get(URL_PAGE_WHITELISTED)
     assert not browser.navbar.is_tracking_shield_displayed
