@@ -33,15 +33,8 @@ def test_stage_list_verification(base_url, selenium, channel, conf):
         assert results[0] == 'n:{0}'.format(POLLING_TIME)
         assert results[1]+';' == 'i:{0}'.format(item)
         #assert results[2] == 'u:{0}/{1}/{2}'.format(stage_base_url, item, timestamp)
-        #TODO: curl item has ';' for item that is showing in the url and should be stripped out
-        x = results[2].isdigit()
-        #assert x == True
-        #TODO: fix x is FALSE
-        print('X IS HERE')
-        print(x)
-        print(results)
-
-
-    # u = ['baseurl', 'filename', '12345678']
-    # x = u[2].isdigit()
-    # assert x == True
+        #TODO: remove timestamp. Do we need to assert format including timestamp?
+        t = results[2].split('/')
+        assert t[1]+';' == item
+        assert t[2].isdigit()
+        #TODO: make a prod list verification test
