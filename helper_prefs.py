@@ -6,6 +6,10 @@ def filesize_index(conf):
     return conf.get('index', 'filesize_index').split(',')
 
 
+def list_verification_name(listname):
+    """Returns individual list"""
+
+
 def max_file_size_file_list(conf, name_section):
     """ Returns expected "max file size" grouping file_list
         from prefs.ini. """

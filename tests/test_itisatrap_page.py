@@ -1,13 +1,13 @@
-import os
 import pytest
 from pages.itisatrap import ItisaTrapPage
 
 
-#PREF_SET = os.environ['PREF_SET']
+# PREF_SET = os.environ['PREF_SET']
 
 
 @pytest.mark.nondestructive
-def test_third_party_tracker_loads_correctly(base_url, selenium, channel, pref_set):
+def test_third_party_tracker_loads_correctly(base_url, selenium,
+                                             channel, pref_set):
     page = ItisaTrapPage(selenium, base_url).open()
 
     assert page.third_party_loads_correctly

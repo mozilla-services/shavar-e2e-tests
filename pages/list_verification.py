@@ -1,16 +1,21 @@
 from pypom import Page
+import urllib2
+import requests
 
 
 class ListVerificationPage(Page):
 
     URL_TEMPLATE = 'https://shavar.stage.mozaws.net/list?client=foo&appver=1&pver=2.2'
 
-    def __init__(self, resp_data):
-        self.resp_data = resp_data
-        self.headers = {'content-type': 'text/xml; charset=utf-8'}
+    def read_lists(self):
+        url2 = 'https://shavar.stage.mozaws.net/list?client=foo&appver=1&pver=2.2'
+        data = requests.get(url2)
+        t = str(data.text)
+        s = t.split()
+        list = sorted(s)
+        return list
 
-    def read(self):
-        return self.resp_data
-
-# def urlopen(request):
-#     return Response(r'<xml document>')
+    def read_list(self, list):
+        url3 = 'https://shavar.stage.mozaws.net/downloads?client=foo&appver=1&pver=2.2'
+        req = requests.post(url3, data=list)
+        return str(req.text).splitlines()
