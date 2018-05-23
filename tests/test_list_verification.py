@@ -22,14 +22,14 @@ def test_list_verification(base_url, selenium, channel, conf):
     assert results == expected
 
 @pytest.mark.nondestructive
-def test_individual_list_verification(base_url, selenium, channel, conf):
+def test_individual_list_verification(selenium, channel, conf):
     """Test individual list responses"""
     update_url = conf.get(TEST_ENV, 'browser.safebrowsing.provider.mozilla.downloads')
-    page = ListVerificationPage(selenium, base_url).open()
     list = conf.get('list_index','file_list_{0}'.format(TEST_ENV))
     s = list.split(',')
     for item in s:
-        results = page.read_individual_list(conf, item)
+        resp = requests.post(update_url, data=item)
+        results = str(resp.text).splitlines()
         assert results[0] == 'n:{0}'.format(CLIENT_CHECK_DELAY)
         assert results[1]+';' == 'i:{0}'.format(item)
         t = results[2].split('/')
