@@ -15,7 +15,7 @@ TEST_ENV = os.environ['TEST_ENV']
 
 
 @pytest.fixture()
-def conf():
+def conf(scope='session'):
     config = ConfigParser.ConfigParser()
     config.read('prefs.ini')
     return config
@@ -34,14 +34,16 @@ def path_profile(pref_set):
 
 
 def path_safebrowsing_files(pref_set):
-    path_local_files = '{0}/profiles/{1}/safebrowsing'.format(PATH_CACHE, pref_set)
+    path_local_files = '{0}/profiles/{1}/safebrowsing'.format
+    (PATH_CACHE, pref_set)
     return path_local_files
 
 
 @pytest.fixture
 def profile_copy(driver, pref_set):
     """Selenium retains profile in a temporary cache. We are copying
-    the profile to a semi-permanent cache, in case we need to verify after a test run."""
+    the profile to a semi-permanent cache, in case we need to
+    verify after a test run."""
     path_profile_dest = path_profile(pref_set)
     path = driver.capabilities['moz:profile']
     try:

@@ -1,12 +1,10 @@
-import pytest
-
 from helper_prefs import (
   filesize_index,
   pref_sets_combined_file_lists,
   safebrowsing_files_unique,
   safebrowsing_files_local_expected,
 )
-from conftest import path_safebrowsing_files, PATH_CACHE
+from conftest import path_safebrowsing_files
 
 
 def test_safebrowsing_contains_expected_files(selenium, conf, pref_set, channel): # noqa
