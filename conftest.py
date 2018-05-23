@@ -15,7 +15,7 @@ TEST_ENV = os.environ['TEST_ENV']
 
 
 @pytest.fixture()
-def conf():
+def conf(scope='session'):
     config = ConfigParser.ConfigParser()
     config.read('prefs.ini')
     return config
