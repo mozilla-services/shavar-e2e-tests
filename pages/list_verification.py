@@ -15,5 +15,4 @@ class ListVerificationPage(Page):
         data = requests.get(url)
         t = str(data.text)
         s = t.split()
-        list = sorted(s)
-        return list
+        return sorted(s)

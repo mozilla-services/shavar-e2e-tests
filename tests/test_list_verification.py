@@ -11,7 +11,7 @@ TEST_ENV = os.environ['TEST_ENV']
 
 @pytest.mark.nondestructive
 def test_list_verification(base_url, selenium, channel, conf):
-    """Test Firefox Tracking Protection serves correct lists"""
+    """Test that Firefox Tracking Protection serves correct lists"""
     base_url = conf.get(TEST_ENV, 'browser.safebrowsing.provider.mozilla.updateURL')
     page = ListVerificationPage(selenium, base_url).open()
     results = page.read_lists(conf)
