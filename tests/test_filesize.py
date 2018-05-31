@@ -1,3 +1,5 @@
+import time
+import pytest
 from helper_prefs import (
   filesize_index,
   pref_sets_combined_file_lists,
@@ -11,19 +13,25 @@ def test_safebrowsing_contains_expected_files(selenium, conf, pref_set, channel)
     """Test compares expected files with what is actually there.
     """
 
+    time.sleep(60)
     safebrowsing_files = path_safebrowsing_files(pref_set)
     f = safebrowsing_files_unique(safebrowsing_files)
 
     expected = pref_sets_combined_file_lists(conf, pref_set)
-    print('-------files---------')
+    print('----------------------unique--------------------------')
     print(f)
+    print('----------------------expected------------------------')
+    print(expected)
+    print('------------------------------------------------------')
     assert set(expected).issubset(set(f))
 
 
+@pytest.mark.skip(reason='na')
 def test_safebrowsing_filesize(selenium, conf, pref_set, channel): # noqa
     """Verify safebrowsing files are within correct size thresholds.
     """
 
+    time.sleep(10)
     safebrowsing_files = path_safebrowsing_files(pref_set)
     sections_filesizes = filesize_index(conf)
 

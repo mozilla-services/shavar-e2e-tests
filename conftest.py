@@ -61,7 +61,7 @@ def profile_copy(driver, pref_set):
 
     print('PREPARE TO COPYTREE')
     # TODO: https://github.com/rbillings/shavar-e2e-tests/issues/58
-    # shutil.copytree(path, path_profile_dest)
+    shutil.copytree(path, path_profile_dest)
 
 
 @pytest.fixture

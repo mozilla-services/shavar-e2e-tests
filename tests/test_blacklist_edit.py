@@ -1,10 +1,9 @@
 import json
-import time
 import pytest
 from github_handler import (github_repo,
                             json_contents,
                             json_overwrite)
-from pages.trackingprotection import TrackingProtectionPage 
+from pages.trackingprotection import TrackingProtectionPage
 
 
 BLACKLIST_NAME_ORIG = 'track.json'
@@ -34,14 +33,14 @@ def teardown_blacklist(cache):
 
     repo = github_repo()
     message = 'test: revert json for blacklist test'
-    contents_orig = cache.read() 
+    contents_orig = cache.read()
     contents_orig = json.loads(contents_orig)
     json_overwrite(repo, BLACKLIST_NAME_ORIG, contents_orig, message)
-   
+
 
 def test_verify_no_blacklist(base_url, selenium, conf, channel):
     """Test verifies blacklist not yet set
-    
+
     NOTE:
         A black cat should appear on page"""
 
@@ -52,19 +51,20 @@ def test_verify_no_blacklist(base_url, selenium, conf, channel):
 
 def test_verify_blacklist(cache, base_url, selenium, conf, channel):
     """Test verifies blacklist now set
-    
+
     NOTE:
         An orange STOP sign fox should appear on page"""
 
     setup_blacklist(cache)
     page = TrackingProtectionPage(selenium, base_url).open()
-    
+
     assert page.tracking_protection_on
 
 
+@pytest.mark.skip(reason='na')
 def test_verify_blacklist_reverted(cache, base_url, selenium, conf, channel):
-    """Test verifies blacklist has been reverted 
-    
+    """Test verifies blacklist has been reverted
+
     NOTE:
         A black cat should appear on page"""
 

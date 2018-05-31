@@ -38,6 +38,14 @@ def teardown_whitelist(cache):
     json_overwrite(repo, WHITELIST_NAME_ORIG, contents_orig, message)
    
 
+"""Verify in the: Tools > Web Developer > Browser Console, you
+should see that doubleclick.net was blocked because of TrackingProtection
+
+SHOULD SEEȘ
+The resource at “https://www.google-analytics.com/collect” was blocked because tracking protection is enabled.[Learn More] 9d803b47e0fce980c4db16364074b84aa56e6d3e
+"""
+
+
 def test_verify_no_whitelist(base_url, selenium, conf, channel):
     """Test verifies whitelist not yet set
     
