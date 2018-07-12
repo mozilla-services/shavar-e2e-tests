@@ -15,7 +15,7 @@ TEST_ENV = os.environ['TEST_ENV']
 
 
 @pytest.fixture()
-def conf():
+def conf(scope='session'):
     config = ConfigParser.ConfigParser()
     config.read('prefs.ini')
     return config
@@ -34,23 +34,21 @@ def path_profile(pref_set):
 
 
 def path_safebrowsing_files(pref_set):
-    path_local_files = '{0}/profiles/{1}/safebrowsing'.format(PATH_CACHE, pref_set) # noqa
+    path_local_files = '{0}/profiles/{1}/safebrowsing'.format
+    (PATH_CACHE, pref_set)
     return path_local_files
 
 
 @pytest.fixture
 def profile_copy(driver, pref_set):
     """Selenium retains profile in a temporary cache. We are copying
-    the profile to a semi-permanent cache, in case we need to verify
-    after a test run."""
+    the profile to a semi-permanent cache, in case we need to
+    verify after a test run."""
     path_profile_dest = path_profile(pref_set)
-    print('PATH_PROFILE: {0}'.format(path_profile_dest))
     path = driver.capabilities['moz:profile']
     try:
-        print('PREPARE TO RMTREE')
-        time.sleep(5)
         shutil.rmtree(path_profile_dest)
-        time.sleep(5)
+        time.sleep(1)
     except:
         pass
     print('\n====================================')
@@ -89,14 +87,18 @@ def firefox_path(channel):
     h = OSHandler()
     this_os = h.get_os()
 
+    # TODO: remove OSHandler once docker in place
     if this_os == 'mac':
         channel = channel.title()
-        # download must detar to FirefoxNightly or Firefox (Release)
+        # download must detar to FirefoxNightly.app or FirefoxRelease.app
         path_firefox = '{0}/browsers/Firefox{1}.app/Contents/MacOS/firefox-bin'.format(PATH_CACHE, channel) # noqa
+        #path_firefox = path_firefox.encode('utf-8')
     elif this_os == 'linux':
         # download must detar to firefox-nightly or firefox-release
-        path_firefox = '/opt/firefox-{0}/firefox-bin'.format(channel)
-        pass
+        path_firefox = '{0}/browsers/firefox-{1}/firefox-bin'.format(
+            PATH_CACHE, channel)
+        #path_firefox = path_firefox.encode('utf-8')
+        #pass
     else:
         sys.exit('ERROR: OS not supported')
     return path_firefox.encode('utf-8')
@@ -110,7 +112,7 @@ def selenium(pref_set, firefox_options):
     3. quit firefox when test completed
     """
     driver = Firefox(firefox_options=firefox_options)
-    # TODO: fix permissions issue w/ Docker
+    # TODO: https://github.com/mozilla-services/shavar-e2e-tests/issues/58
     profile_copy(driver, pref_set)
     yield driver
     driver.quit()
