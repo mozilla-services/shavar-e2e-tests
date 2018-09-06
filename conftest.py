@@ -1,12 +1,12 @@
 import ConfigParser
 import os
 import shutil
+from shutil import Error
 import sys
 import time
 from foxpuppet import FoxPuppet
 import pytest
 from selenium.webdriver import Firefox
-from helper_prefs import set_prefs # noqa
 from os_handler import OSHandler
 
 
@@ -17,6 +17,7 @@ TEST_ENV = os.environ['TEST_ENV']
 @pytest.fixture()
 def conf(scope='session'):
     config = ConfigParser.ConfigParser()
+    config.optionxform = str
     config.read('prefs.ini')
     return config
 
@@ -49,8 +50,8 @@ def profile_copy(driver, pref_set):
     try:
         shutil.rmtree(path_profile_dest)
         time.sleep(1)
-    except:
-        pass
+    except Error as e:
+        print(e)
     print('\n====================================')
     print('PATH: {0}'.format(path))
     resp = os.listdir('{0}/safebrowsing'.format(path))
@@ -92,13 +93,10 @@ def firefox_path(channel):
         channel = channel.title()
         # download must detar to FirefoxNightly.app or FirefoxRelease.app
         path_firefox = '{0}/browsers/Firefox{1}.app/Contents/MacOS/firefox-bin'.format(PATH_CACHE, channel) # noqa
-        #path_firefox = path_firefox.encode('utf-8')
     elif this_os == 'linux':
         # download must detar to firefox-nightly or firefox-release
         path_firefox = '{0}/browsers/firefox-{1}/firefox-bin'.format(
             PATH_CACHE, channel)
-        #path_firefox = path_firefox.encode('utf-8')
-        #pass
     else:
         sys.exit('ERROR: OS not supported')
     return path_firefox.encode('utf-8')

@@ -4,8 +4,8 @@ from github import GithubException
 
 
 GITHUB_API = 'api.github.com'
-# GITHUB_OWNER = 'mozilla-services'
-GITHUB_OWNER = 'rpappalax'
+GITHUB_OWNER = 'mozilla-services'
+#GITHUB_OWNER = 'rpappalax'
 GITHUB_REPO = 'shavar-test-lists'
 
 if os.environ['GITHUB_ACCESS_TOKEN']:

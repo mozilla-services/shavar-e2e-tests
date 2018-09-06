@@ -1,5 +1,6 @@
 import json
 import pytest
+from selenium.webdriver.support.wait import WebDriverWait
 from github_handler import (github_repo,
                             json_contents,
                             json_overwrite)
@@ -8,6 +9,8 @@ from pages.whitelistedit import WhiteListEditPage
 
 WHITELIST_NAME_ORIG = 'trackwhite.json'
 WHITELIST_NAME_NEW = 'trackwhite.json.EDITED'
+URL_PAGE_BLACKLIST = 'https://washingtonpost.com'
+URL_PAGE_WHITELISTED = 'https://www.youtube.com'
 
 
 @pytest.fixture(scope='module')
@@ -40,14 +43,12 @@ def teardown_whitelist(cache):
 
 """Verify in the: Tools > Web Developer > Browser Console, you
 should see that doubleclick.net was blocked because of TrackingProtection
-
-SHOULD SEEȘ
-The resource at “https://www.google-analytics.com/collect” was blocked because tracking protection is enabled.[Learn More] 9d803b47e0fce980c4db16364074b84aa56e6d3e
 """
 
 
-def test_verify_no_whitelist(base_url, selenium, conf, channel):
-    """Test verifies whitelist not yet set
+@pytest.mark.skip(reason='whatev')
+def test_verify_whitelist_in_place(base_url, selenium, conf, channel):
+    """Test verifies whitelist not yet changed (items removed) 
     
     NOTE:
         Verify that youtube page does not yet have shield""" 
@@ -55,24 +56,28 @@ def test_verify_no_whitelist(base_url, selenium, conf, channel):
     page = WhiteListEditPage(selenium, base_url).open()
 
     # TODO:  need to assert the correct shit here
-    # assert page.third_party_loads_correctly
-    assert True
+    assert page.third_party_loads_correctly
 
 
-def test_verify_whitelist(cache, base_url, selenium, conf, channel):
-    """Test verifies whitelist now set
+@pytest.mark.firefox_preferences({'privacy.trackingprotection.enabled': True})
+def test_verify_whitelist_removal(cache, base_url, browser, selenium, conf, channel, pref_set):  # noqa
+    """Test verifies behavior with whitelist removal  
+    Tests if the tracking protection icon displays
+    on a blacklist site.
     
     NOTE:
         Verify that youtube page now has shield""" 
 
-    setup_whitelist(cache)
-    page = WhiteListEditPage(selenium, base_url).open()
+    # TODO:  RESTORE SETUP!!!
+    #setup_whitelist(cache)
     
-    # TODO:  need to assert the correct shit here
-    # assert page.third_party_loads_correctly
-    assert True
+    selenium.get('https://washingtonpost.com')
+    WebDriverWait(selenium, timeout=5).until(
+        lambda _: browser.navbar.is_tracking_shield_displayed)
+    assert browser.navbar.is_tracking_shield_displayed
 
 
+@pytest.mark.skip(reason='whatev')
 def test_verify_whitelist_reverted(cache, base_url, selenium, conf, channel):
     """Test verifies whitelist has been reverted 
     
