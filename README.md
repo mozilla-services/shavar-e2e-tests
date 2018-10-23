@@ -5,3 +5,7 @@ This repo will hold all of the e2e-tests for Shavar, also known as Tracking Prot
 For manual test case steps please refer to TestRail test case repository: https://testrail.stage.mozaws.net/index.php?/projects/overview/32
 
 Please file an issue here to request permission for TestRail.
+
+## Pre-reqs
+Knowledge of Python, Selenium, Docker and Tracking Protection[Shavar]
+Install: python, pytest, Docker
