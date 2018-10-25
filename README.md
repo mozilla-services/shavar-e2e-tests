@@ -6,6 +6,9 @@ For manual test case steps please refer to TestRail test case repository: https:
 
 Please file an issue here to request permission for TestRail.
 
+Detailed information lives on the internal Mana page:
+https://mana.mozilla.org/wiki/display/SVCOPS/Shavar+-+aka+Mozilla%27s+Tracking+Protection
+
 ## Pre-reqs
 Knowledge of Python, Selenium, Docker and Tracking Protection[Shavar]
 Install: python, pytest, Docker
